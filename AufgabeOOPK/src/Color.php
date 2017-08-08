@@ -2,21 +2,25 @@
 
 class Color
 {
-    /** @var array */
-    private $colors = array(
-        1 => 'red',
-        2 => 'green',
-        3 => 'blue',
-        4 => 'pink',
-        5 => 'yellow',
-        6 => 'brown'
-    );
+    /** @var Color */
+    private $color;
 
-    public function getColor(int $number): string
+    public function __construct(string $color)
     {
-        if ($number > 6 || $number < 1) {
-            throw new Exception('invalid number');
+        $this->isValidColor($color);
+        $this->color = $color;
+    }
+
+    public function isValidColor(string $color)
+    {
+        $validColors = ['red', 'green', 'blue', 'pink', 'yellow', 'orange'];
+        if (!in_array($color, $validColors)) {
+            throw new InvalidArgumentException(sprintf('Invalid color "%s', $color));
         }
-        return $this->colors[$number];
+    }
+
+    public function __toString(): string
+    {
+        return $this->color;
     }
 }

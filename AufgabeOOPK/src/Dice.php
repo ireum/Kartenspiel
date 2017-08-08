@@ -3,16 +3,21 @@
 
 class Dice
 {
-    public function __construct()
-    {
+    /** @var Color[] */
+    private $colors;
+    /** @var LoggerInterface */
+    private $logger;
 
+    public function __construct(array $colors, LoggerInterface $logger)
+    {
+        $this->colors = $colors;
+        $this->logger = $logger;
     }
 
-    public function roll(Player $player): int
+    public function roll(Player $player): Color
     {
-        $rndNum = rand(1, 6);
-        $colorString = (new Color())->getColor($rndNum);
-        echo PHP_EOL . $player->getName() . " rolled " . $colorString;
-        return $rndNum;
+        $rndColor = $this->colors[array_rand($this->colors)];
+        $this->logger->log(PHP_EOL . $player . " rolled " . $rndColor);
+        return $rndColor;
     }
 }

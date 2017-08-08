@@ -6,57 +6,58 @@ class Player
     /** @var string */
     private $name;
 
-    /** @var array */
+    /** @var Card[] */
     private $cards = [];
 
-    public function __construct(string  $name)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    public function getName(): string
+    public function __toString()
     {
         return $this->name;
     }
 
-    public function rollDice(Dice $dice): int
+    public function executeTurn(Dice $dice)
     {
-        $num = $dice->roll($this);
-        return $num;
+        $color = $this->rollDice($dice);
+        $this->checkCards($color);
     }
 
-    public function allCardsRevealed(): bool
+    private function rollDice(Dice $dice): Color
+    {
+        $color = $dice->roll($this);
+        return $color;
+    }
+
+    private function checkCards(Color $color)
+    {
+        foreach ($this->cards as $card) {
+            if ($color === $card->getColor() && !$card->getIsRevealed()) {
+                $card->reveal();
+            }
+        }
+    }
+
+    public function allCardsRevealed(LoggerInterface $logger): bool
     {
         foreach ($this->cards as $card) {
             if (!$card->getIsRevealed()) {
                 return false;
             }
         }
-        echo ' and has won the game';
+        $logger->log(' and won the game');
         return true;
     }
 
-    public function checkCards(int $color)
+    public function setCards(array $colors, int $cardCount)
     {
-        foreach ($this->cards as $card) {
-            if ($color == $card->getColor() && !$card->getIsRevealed()) {
-                $card->reveal();
-            }
-        }
-    }
+        // Spieler "bekommt" Karten. (Hier nimmt er sie sich selber / erzeugt sie sich selber)
+        $rndColors = array_rand($colors, $cardCount);
 
-    public function getCards()
-    {
-        return $this->cards;
-    }
-
-    public function setCards()
-    {
-        $arr = [1, 2, 3, 4, 5, 6];
-        shuffle($arr);
-
-        foreach ($arr as $num) {
-            array_push($this->cards, new Card($num));
+        for ($i = 0; $i < $cardCount; $i++) {
+            array_push($this->cards, new Card($colors[$rndColors[$i]], new EchoLogger()));
         }
     }
 
