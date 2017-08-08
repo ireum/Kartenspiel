@@ -17,6 +17,6 @@ $playerArray = [$player1, $player2, $player3];
 
 
 $game = new Game($playerArray, $diceArray, new EchoLogger());
-$game->prepare(5);
+$game->prepare();
 $game->play();
 

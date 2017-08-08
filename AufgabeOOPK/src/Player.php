@@ -3,6 +3,24 @@
 
 class Player
 {
+    /** @var CardSet */
+    private $cardSet;
+
+    public function setCardSet(CardSet $cardSet)
+    {
+        $this->cardSet = $cardSet;
+    }
+
+    public function getCardSet()
+    {
+        return $this->cardSet;
+    }
+
+
+
+
+
+
     /** @var string */
     private $name;
 
@@ -33,6 +51,15 @@ class Player
 
     private function checkCards(Color $color)
     {
+        foreach ($this->cardSet->getCards() as $card) {
+//            echo PHP_EOL . 'VD ___________________________' . PHP_EOL;
+//            var_dump($card);
+            if ($color === $card->getColor() && !$card->getIsRevealed()) {
+                $card->reveal();
+            }
+        }
+
+
         foreach ($this->cards as $card) {
             if ($color === $card->getColor() && !$card->getIsRevealed()) {
                 $card->reveal();
@@ -42,7 +69,7 @@ class Player
 
     public function allCardsRevealed(LoggerInterface $logger): bool
     {
-        foreach ($this->cards as $card) {
+        foreach ($this->cardSet->getCards() as $card) {
             if (!$card->getIsRevealed()) {
                 return false;
             }
@@ -51,15 +78,19 @@ class Player
         return true;
     }
 
-    public function setCards(array $colors, int $cardCount)
-    {
-        // Spieler "bekommt" Karten. (Hier nimmt er sie sich selber / erzeugt sie sich selber)
-        $rndColors = array_rand($colors, $cardCount);
 
-        for ($i = 0; $i < $cardCount; $i++) {
-            array_push($this->cards, new Card($colors[$rndColors[$i]], new EchoLogger()));
-        }
-    }
+
+
+//    public function setCards(array $colors)
+//    {
+//        // Spieler "bekommt" Karten. (Hier nimmt er sie sich selber / erzeugt sie sich selber)
+//        $cardCount = count($colors) - 1;
+//        $rndColors = array_rand($colors, $cardCount);
+//
+//        for ($i = 0; $i < $cardCount; $i++) {
+//            array_push($this->cards, new Card($colors[$rndColors[$i]], new EchoLogger()));
+//        }
+//    }
 
 
 }

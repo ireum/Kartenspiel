@@ -15,6 +15,9 @@ class Game
     /** @var bool */
     private $gameEnd = false;
 
+    /** @var int */
+    private $roundCounter = 0;
+
     /** @var LoggerInterface */
     private $logger;
 
@@ -25,30 +28,33 @@ class Game
         $this->logger = $logger;
     }
 
-    public function prepare(int $cardCount)
+    public function prepare()
     {
         $this->dice = new Dice($this->colors, new EchoLogger());
 
         foreach ($this->players as $player) {
-            $player->setCards($this->colors, $cardCount);
+            $player->setCardSet(new CardSet($player, $this->colors));
         }
+    }
+
+    private function round()
+    {
+        $this->logger->log(PHP_EOL . 'Round ' . $this->roundCounter++);
+        foreach ($this->players as $player) {
+            $player->executeTurn($this->dice);
+
+            if ($player->allCardsRevealed(new EchoLogger())) {
+                $this->gameEnd = true;
+                break;
+            }
+        }
+        $this->logger->log(PHP_EOL);
     }
 
     public function play()
     {
-        $counter = 1;
         do {
-            $this->logger->log(PHP_EOL . 'Round ' . $counter++);
-
-            foreach ($this->players as $player) {
-                $player->executeTurn($this->dice);
-
-                if ($player->allCardsRevealed(new EchoLogger())) {
-                    $this->gameEnd = true;
-                    break;
-                }
-            }
-            echo PHP_EOL;
+            $this->round();
         } while (!$this->gameEnd);
     }
 }
