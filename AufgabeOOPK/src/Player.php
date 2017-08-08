@@ -45,6 +45,11 @@ class Player
         }
     }
 
+    public function getCards()
+    {
+        return $this->cards;
+    }
+
     public function setCards()
     {
         $arr = [1, 2, 3, 4, 5, 6];

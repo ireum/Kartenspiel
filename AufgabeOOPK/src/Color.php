@@ -14,6 +14,9 @@ class Color
 
     public function getColor(int $number): string
     {
+        if ($number > 6 || $number < 1) {
+            throw new Exception('invalid number');
+        }
         return $this->colors[$number];
     }
 }

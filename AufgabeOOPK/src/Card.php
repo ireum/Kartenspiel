@@ -13,7 +13,7 @@ class Card
         $this->color = $color;
     }
 
-    public function getColor(): string
+    public function getColor(): int
     {
         return $this->color;
     }

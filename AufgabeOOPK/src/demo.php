@@ -10,3 +10,4 @@ $playerArray = [$player1, $player2, $player3];
 $game = new Game($playerArray);
 $game->prepare();
 $game->play();
+
