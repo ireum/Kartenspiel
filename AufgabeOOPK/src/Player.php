@@ -25,7 +25,7 @@ class Player
         return $num;
     }
 
-    public function allCardsRevealed()
+    public function allCardsRevealed(): bool
     {
         foreach ($this->cards as $card) {
             if (!$card->getIsRevealed()) {
@@ -43,11 +43,6 @@ class Player
                 $card->reveal();
             }
         }
-    }
-
-    public function getCards(): array
-    {
-        return $this->cards;
     }
 
     public function setCards(array $cardColorArray)

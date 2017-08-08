@@ -26,13 +26,7 @@ class Game
         foreach ($this->players as $player) {
             shuffle($arr);
             $player->setCards($arr);
-//            var_dump($player->getCards($arr));
         }
-
-//        $color = new Color();
-//        foreach ($this->players as $player) {
-//            $player->setCards($color->colors);
-//        }
     }
 
     public function play()
