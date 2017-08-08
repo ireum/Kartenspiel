@@ -19,19 +19,19 @@ class Game
 
     public function prepare()
     {
-        $arr = [1, 2, 3, 4, 5, 6];
-
         $this->dice = new Dice();
 
         foreach ($this->players as $player) {
-            shuffle($arr);
-            $player->setCards($arr);
+            $player->setCards();
         }
     }
 
     public function play()
     {
+        $counter = 0;
         do {
+            echo PHP_EOL . 'Round ' . $counter++;
+
             foreach ($this->players as $player) {
                 $num = $player->rollDice($this->dice);
                 $player->checkCards($num);

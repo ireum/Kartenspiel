@@ -45,9 +45,12 @@ class Player
         }
     }
 
-    public function setCards(array $cardColorArray)
+    public function setCards()
     {
-        foreach ($cardColorArray as $num) {
+        $arr = [1, 2, 3, 4, 5, 6];
+        shuffle($arr);
+
+        foreach ($arr as $num) {
             array_push($this->cards, new Card($num));
         }
     }
