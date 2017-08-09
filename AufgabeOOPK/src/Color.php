@@ -2,7 +2,7 @@
 
 class Color
 {
-    /** @var Color */
+    /** @var string */
     private $color;
 
     public function __construct(string $color)

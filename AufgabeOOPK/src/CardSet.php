@@ -34,11 +34,11 @@ class CardSet
 
     private function setUpCards(array $colors)
     {
-        $cardCount = count($colors) - 1;
-        $rndColors = array_rand($colors, $cardCount);
-        for ($i = 0; $i < $cardCount; $i++) {
-            array_push($this->cards, new Card($colors[$rndColors[$i]], new EchoLogger()));
+        $rndColors = array_rand($colors, count($colors) - 1);
+
+        foreach ($rndColors as $rc) {
+
+            $this->cards[] = new Card($colors[$rc]);
         }
     }
-
 }

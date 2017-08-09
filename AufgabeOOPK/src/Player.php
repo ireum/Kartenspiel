@@ -31,13 +31,13 @@ class Player
         $color = $this->rollDice($dice);
         $logString = $this->name . ' rolled ' . $color;
         if ($this->cardSet->checkCardsForRolledColor($color)) {
-            $logString = $logString . ' and revealed a card';
+            $logString .= ' and revealed a card';
         }
 
 
 
         if ($this->cardSet->hasAllCardsRevealed()) {
-            $logString = $logString . ' and won the game.';
+            $logString .= ' and won the game.';
         }
         $this->logger->log($logString);
         return $this->cardSet->hasAllCardsRevealed();

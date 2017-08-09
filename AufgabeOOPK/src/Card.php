@@ -7,18 +7,15 @@ class Card
     private $color;
     /** @var bool */
     private $isRevealed = false;
-    /** @var LoggerInterface */
-    private $logger;
 
     public function  __toString(): string
     {
         return $this->color . ' ' . $this->getIsRevealed();
     }
 
-    public function __construct(Color $color, LoggerInterface $logger)
+    public function __construct(Color $color)
     {
         $this->color = $color;
-        $this->logger = $logger;
     }
 
     public function getColor(): Color
