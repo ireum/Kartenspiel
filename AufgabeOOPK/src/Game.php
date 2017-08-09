@@ -16,7 +16,7 @@ class Game
     private $gameEnd = false;
 
     /** @var int */
-    private $roundCounter = 0;
+    private $roundCounter = 1;
 
     /** @var LoggerInterface */
     private $logger;
