@@ -2,21 +2,10 @@
 
 include 'autoload.php';
 
-$red = new Color('red');
-$green = new Color('green');
-$blue = new Color('blue');
-$pink = new Color('pink');
-$orange = new Color('orange');
-$yellow = new Color('yellow');
-$diceArray = [$red, $green, $blue, $pink, $orange, $yellow];
+$factory = new Factory();
+$conf = $factory->createConfiguration('conf.ini');
 
-$player1 = new Player('Alice');
-$player2 = new Player('Bob');
-$player3 = new Player('Carol');
-$playerArray = [$player1, $player2, $player3];
-
-
-$game = new Game($playerArray, $diceArray, new EchoLogger());
-$game->prepare();
+$game = $factory->createGame($conf->getPlayers(), $conf->getColors(), false);
+$game->prepare($factory->createDiceArray($conf->getColors()));
 $game->play();
 

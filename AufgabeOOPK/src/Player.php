@@ -12,46 +12,40 @@ class Player
     /** @var Card[] */
     private $cards = [];
 
-    public function __construct(string $name)
+    /** @var LoggerInterface */
+    private $logger;
+
+    public function __construct(string $name, LoggerInterface $logger)
     {
         $this->name = $name;
+        $this->logger = $logger;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }
 
-    public function executeTurn(Dice $dice)
+    public function executeTurn(Dice $dice): bool
     {
         $color = $this->rollDice($dice);
-        $this->checkCards($color);
+        $logString = $this->name . ' rolled ' . $color;
+        if ($this->cardSet->checkCardsForRolledColor($color)) {
+            $logString = $logString . ' and revealed a card';
+        }
+
+
+
+        if ($this->cardSet->hasAllCardsRevealed()) {
+            $logString = $logString . ' and won the game.';
+        }
+        $this->logger->log($logString);
+        return $this->cardSet->hasAllCardsRevealed();
     }
 
     private function rollDice(Dice $dice): Color
     {
-        $color = $dice->roll($this);
-        return $color;
-    }
-
-    private function checkCards(Color $color)
-    {
-        foreach ($this->cardSet->getCards() as $card) {
-            if ($color === $card->getColor() && !$card->getIsRevealed()) {
-                $card->reveal();
-            }
-        }
-    }
-
-    public function allCardsRevealed(LoggerInterface $logger): bool
-    {
-        foreach ($this->cardSet->getCards() as $card) {
-            if (!$card->getIsRevealed()) {
-                return false;
-            }
-        }
-        $logger->log(' and won the game');
-        return true;
+        return $dice->roll();
     }
 
     public function setCardSet(CardSet $cardSet)

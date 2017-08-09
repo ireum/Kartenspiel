@@ -11,12 +11,28 @@ class CardSet
         $this->setUpCards($colors);
     }
 
-    public function getCards(): array
+    public function checkCardsForRolledColor(Color $color): bool
     {
-        return $this->cards;
+        foreach ($this->cards as $card) {
+            if ($color == $card->getColor() && !$card->getIsRevealed()) {
+                $card->reveal();
+                return true;
+            }
+        }
+        return false;
     }
 
-    private function setUpCards($colors)
+    public function hasAllCardsRevealed(): bool
+    {
+        foreach ($this->cards as $card) {
+            if (!$card->getIsRevealed()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function setUpCards(array $colors)
     {
         $cardCount = count($colors) - 1;
         $rndColors = array_rand($colors, $cardCount);

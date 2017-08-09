@@ -10,6 +10,11 @@ class Card
     /** @var LoggerInterface */
     private $logger;
 
+    public function  __toString(): string
+    {
+        return $this->color . ' ' . $this->getIsRevealed();
+    }
+
     public function __construct(Color $color, LoggerInterface $logger)
     {
         $this->color = $color;
@@ -28,7 +33,6 @@ class Card
 
     public function reveal()
     {
-        $this->logger->log(' and revealed a card');
         $this->isRevealed = true;
     }
 }

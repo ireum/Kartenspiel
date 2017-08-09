@@ -9,9 +9,6 @@ class Game
     /** @var Player[] */
     private $players = [];
 
-    /** @var Color[] */
-    private $colors = [];
-
     /** @var bool */
     private $gameEnd = false;
 
@@ -21,19 +18,17 @@ class Game
     /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(array $players, array $colors, LoggerInterface $logger)
+    public function __construct(array $players, Dice $dice, LoggerInterface $logger)
     {
         $this->players = $players;
-        $this->colors = $colors;
+        $this->dice = $dice;
         $this->logger = $logger;
     }
 
-    public function prepare()
+    public function prepare(array $colors)
     {
-        $this->dice = new Dice($this->colors, new EchoLogger());
-
         foreach ($this->players as $player) {
-            $player->setCardSet(new CardSet($this->colors));
+            $player->setCardSet(new CardSet($colors));
         }
     }
 
@@ -41,20 +36,27 @@ class Game
     {
         $this->logger->log(PHP_EOL . 'Round ' . $this->roundCounter++);
         foreach ($this->players as $player) {
-            $player->executeTurn($this->dice);
-
-            if ($player->allCardsRevealed(new EchoLogger())) {
-                $this->gameEnd = true;
+            if ($player->executeTurn($this->dice)) {
+                $this->finishGame();
                 break;
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 
     public function play()
     {
         do {
             $this->round();
-        } while (!$this->gameEnd);
+        } while (!$this->isGameFinished());
+    }
+
+    private function isGameFinished(): bool
+    {
+        return $this->gameEnd;
+    }
+
+    private function finishGame()
+    {
+        $this->gameEnd = true;
     }
 }
