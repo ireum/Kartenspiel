@@ -2,6 +2,7 @@
 
 class Factory
 {
+    //TODO: Private
     public function createColor(string $color): Color
     {
         return new Color($color);
@@ -37,12 +38,14 @@ class Factory
         return new Dice($this->createDiceArray($colors));
     }
 
+    //TODO: Private
     public function createPlayer(string $name, bool $fileLogger): Player
     {
         return new Player($name, $this->createLogger($fileLogger));
     }
 
-    public function createGame(array $players, array $colors, bool $fileLogger)
+    //TODO: Kein Flag, => config
+    public function createGame(array $players, array $colors, bool $fileLogger = false)
     {
         return new Game($this->createPlayerArray($players, $fileLogger), $this->createDice($colors), $this->createLogger($fileLogger));
     }
