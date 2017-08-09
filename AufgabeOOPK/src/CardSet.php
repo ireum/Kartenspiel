@@ -3,15 +3,11 @@
 
 class CardSet
 {
-    /** @var Player  */
-    private $owner;
-
     /** @var Card[] */
     private $cards = [];
 
-    public function __construct(Player $player, array $colors)
+    public function __construct(array $colors)
     {
-        $this->owner = $player;
         $this->setUpCards($colors);
     }
 

@@ -33,7 +33,7 @@ class Game
         $this->dice = new Dice($this->colors, new EchoLogger());
 
         foreach ($this->players as $player) {
-            $player->setCardSet(new CardSet($player, $this->colors));
+            $player->setCardSet(new CardSet($this->colors));
         }
     }
 
