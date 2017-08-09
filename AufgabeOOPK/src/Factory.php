@@ -42,7 +42,7 @@ class Factory
         return new Player($name, $this->createLogger($fileLogger));
     }
 
-    //TODO: kein flag -> conf file
+    //TODO: kein flag -
     public function createGame(array $players, array $colors, bool $fileLogger = false)
     {
         return new Game($this->createPlayerArray($players, $fileLogger), $this->createDice($colors), $this->createLogger($fileLogger));
