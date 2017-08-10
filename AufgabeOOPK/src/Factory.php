@@ -18,11 +18,11 @@ class Factory
     }
 
     /** @return Player[] */
-    public function createPlayerArray(array $players, bool $fileLogger)
+    public function createPlayerArray(array $players, Configuration $conf)
     {
         $arr = [];
         foreach ($players as $player) {
-            array_push($arr, $this->createPlayer($player, $fileLogger));
+            array_push($arr, $this->createPlayer($player, $conf));
         }
         return $arr;
     }
@@ -37,23 +37,22 @@ class Factory
         return new Dice($this->createDiceArray($colors));
     }
 
-    private function createPlayer(string $name, bool $fileLogger): Player
+    private function createPlayer(string $name, Configuration $conf): Player
     {
-        return new Player($name, $this->createLogger($fileLogger));
+        return new Player($name, $this->createLogger($conf));
     }
 
-    //TODO: kein flag -
-    public function createGame(array $players, array $colors, bool $fileLogger = false)
+    public function createGame(array $players, array $colors, Configuration $conf)
     {
-        return new Game($this->createPlayerArray($players, $fileLogger), $this->createDice($colors), $this->createLogger($fileLogger));
+        return new Game($this->createPlayerArray($players, $conf), $this->createDice($colors), $this->createLogger($conf));
     }
 
-    public function createLogger(bool $fileLogger = true): LoggerInterface
+    public function createLogger(Configuration $conf): LoggerInterface
     {
-        if ($fileLogger) {
-            return new FileLogger();
+        if ($conf->isFileLogger()) {
+            return new FileLogger($conf);
         }
-        return new EchoLogger();
+        return new EchoLogger($conf);
     }
 
     public function createConfiguration(string $path): Configuration

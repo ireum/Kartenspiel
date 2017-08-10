@@ -8,10 +8,9 @@ class Configuration
 
     public function __construct(string $path)
     {
-        // TODO: Fehlerbehandlung bei ungültigen ini dateien
-//        if (parse_ini_file($path) == false) {
-//            throw new Exception('invalid path: ' . $path);
-//        }
+        if (parse_ini_file($path, true, INI_SCANNER_TYPED) == false) {
+            throw new Exception('invalid ini file: ' . $path);
+        }
         $this->configuration = parse_ini_file($path, true);
     }
 
