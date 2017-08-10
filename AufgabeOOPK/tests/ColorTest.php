@@ -3,6 +3,9 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers Color
+ */
 class ColorTest extends TestCase
 {
     /** @var Color */
@@ -10,19 +13,19 @@ class ColorTest extends TestCase
 
     public function setUp()
     {
-        $this->color = new Color();
+        $this->color = new Color('red');
     }
 
-    public function testGetColorReturnsCorrectColors()
+    public function testColorReturnsColorInsertedByConstructor()
     {
-        $this->assertSame('red', $this->color->getColor(1));
+        $this->expectOutputString('red');
+        echo $this->color;
     }
 
-    public function testGetColorWithArgumentOutOfRangeThrowsException()
+    public function testIsValidColorThrowsInvalidArgumentExpetionIfColorIsInvalid()
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('invalid number');
-        $this->color->getColor(7);
-        $this->color->getColor(0);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid color white');
+        $this->color = new Color('white');
     }
 }

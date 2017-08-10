@@ -8,11 +8,6 @@ class Card
     /** @var bool */
     private $isRevealed = false;
 
-    public function  __toString(): string
-    {
-        return $this->color . ' ' . $this->getIsRevealed();
-    }
-
     public function __construct(Color $color)
     {
         $this->color = $color;

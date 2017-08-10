@@ -15,7 +15,7 @@ class Color
     {
         $validColors = ['red', 'green', 'blue', 'pink', 'yellow', 'orange'];
         if (!in_array($color, $validColors)) {
-            throw new InvalidArgumentException(sprintf('Invalid color "%s', $color));
+            throw new InvalidArgumentException(sprintf('Invalid color %s', $color));
         }
     }
 

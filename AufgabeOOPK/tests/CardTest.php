@@ -6,25 +6,29 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers Card
  * @uses Color
- * @uses EchoLogger
  */
 class CardTest extends TestCase
 {
     /** @var Card */
     private $card;
 
-    /** @var \LoggerInterface|PHPUnit_Framework_MockObject_MockObject */
-    private $logger;
+    /** @var Color */
+    private $color;
 
     public function  setUp()
     {
-        $this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-        $this->card = new Card(1, $this->logger);
+        //$this->color = new Color('red');
+        //TODO: Color Mock Obj
+        $this->color = $this->getMockBuilder(Color::class)
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $this->card = new Card($this->color);
     }
 
     public function testGetColorReturnsColorInsertedByConstructor()
     {
-        $this->assertSame(1, $this->card->getColor());
+        $this->assertSame($this->color, $this->card->getColor());
     }
 
     public function testIsRevealedIsSetToFalseByDefault()
@@ -34,7 +38,6 @@ class CardTest extends TestCase
 
     public function testRevealSetsIsRevealedToTrue()
     {
-        $this->logger->expects($this->once())->method('log')->with(' and revealed a card');
         $this->card->reveal();
         $this->assertSame(true, $this->card->getIsRevealed());
     }
