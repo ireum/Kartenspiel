@@ -47,7 +47,7 @@ class Factory
         return new Player($name, $this->createLogger());
     }
 
-    public function createGame()
+    public function createGame(): Game
     {
         return new Game(
             $this->createPlayerArray(),

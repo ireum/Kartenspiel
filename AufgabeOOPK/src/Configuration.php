@@ -16,7 +16,7 @@ class Configuration
     private function isValidIniFile(string $path): bool
     {
         if (parse_ini_file($path, true, INI_SCANNER_TYPED) == false) {
-            throw new Exception('invalid ini file: ' . $path);
+            throw new InvalidArgumentException('invalid ini file: ' . $path);
         }
         return true;
     }

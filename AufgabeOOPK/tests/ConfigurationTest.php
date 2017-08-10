@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers Configuration
- * @uses
  */
 class ConfigurationTest extends TestCase
 {
@@ -14,24 +13,46 @@ class ConfigurationTest extends TestCase
 
     public function setUp()
     {
-        $this->config = new Configuration(__DIR__ . '/../src/conf.ini');
+        $this->config = new Configuration(__DIR__ . '/data/conf.ini');
     }
 
-    public function testDummy()
+    public function testIsInvalidIniFileThrowsExceptionIfInvalidIniFile()
     {
-        $this->assertTrue(true);
+        $this->expectException(InvalidArgumentException::class);
+        $this->config = new Configuration(__DIR__ . '/data/unittest.ini');
     }
 
-//    public function testGetColorReturnsArrayParsedFromIniFile()
-//    {
-//
-//    }
+    public function testGetColorsReturnsArrayFromIniFile()
+    {
+        $expected = [
+            'red',
+            'green'
+        ];
 
-//    public function testIsValidIniFileThrowsExceptionWhenFilePathIsInvalid()
-//    {
-//        $this->expectException(Exception::class);
-//        $this->expectExceptionMessage('invalid ini file: test.txt');
-//
-//        $this->config = new Configuration('test.txt');
-//    }
+        $actual = $this->config->getColors();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testGetPlayersReturnsArrayFromIniFile()
+    {
+        $expected = [
+            'Alice',
+            'Bob'
+        ];
+
+        $actual = $this->config->getPlayers();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testIsFileLoggerReturnsBooleanFromIniFile()
+    {
+        $this->assertTrue($this->config->isFileLogger());
+    }
+
+    public function testGetFileLoggerPathReturnsPathFromIniFile()
+    {
+        $expected = '/tmp/logfile.txt';
+        $actual = $this->config->getFileLoggerPath();
+        $this->assertSame($expected, $actual);
+    }
 }

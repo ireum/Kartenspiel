@@ -22,7 +22,7 @@ class ColorTest extends TestCase
         echo $this->color;
     }
 
-    public function testIsValidColorThrowsInvalidArgumentExpetionIfColorIsInvalid()
+    public function testIsValidColorThrowsInvalidArgumentExceptionIfColorIsInvalid()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid color white');
