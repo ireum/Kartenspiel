@@ -32,7 +32,7 @@ class GameTest extends TestCase
                              ->disableOriginalConstructor()
                              ->getMock();
 
-        $this->players = 
+        $this->players =
 
         $this->game = new Game();
     }

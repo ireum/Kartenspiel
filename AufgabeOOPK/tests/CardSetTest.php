@@ -13,13 +13,17 @@ class CardSetTest extends TestCase
     private $cards;
     /** @var Color[] */
     private $colors;
-
     /** @var CardSet */
     private $cardSet;
 
     public function setUp()
     {
-        $this->colors = [];
+        $colorArray = parse_ini_file('../conf.ini', true, INI_SCANNER_TYPED);
+
+//        foreach ($colorArray as $index => $color) {
+//            array_push($this->colors[$index])
+//        }
+
         for ($i = 0; $i < 6; $i++) {
             array_push($this->colors, $this->getMockBuilder(Color::class)->disableOriginalConstructor()->getMock());
         }
@@ -43,7 +47,7 @@ class CardSetTest extends TestCase
         /** @var Color $color */
         $color = $this->getMockBuilder(Color::class)->disableOriginalConstructor()->getMock();
 //        $this->assertSame(false, $this->cardSet->checkCardsForRolledColor($color));
-        $this->assertTrue($this->cardSet->checkCardsForRolledColor($color));
+        $this->assertFalse($this->cardSet->checkCardsForRolledColor($color));
     }
 
 //    public function testHasAllCardsRevealedReturnsTrueIfAllCardsAreRevealed()

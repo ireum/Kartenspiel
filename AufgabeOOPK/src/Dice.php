@@ -13,7 +13,6 @@ class Dice
 
     public function roll(): Color
     {
-        $rndColor = $this->colors[array_rand($this->colors)];
-        return $rndColor;
+        return $this->colors[array_rand($this->colors)];
     }
 }

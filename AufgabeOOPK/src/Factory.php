@@ -2,6 +2,16 @@
 
 class Factory
 {
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    public function __construct(Configuration $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
     private function createColor(string $color): Color
     {
         return new Color($color);
@@ -12,51 +22,45 @@ class Factory
     {
         $arr = [];
         foreach ($colors as $color) {
-            array_push($arr, $this->createColor($color));
+            $arr[] = $this->createColor($color);
         }
         return $arr;
     }
 
     /** @return Player[] */
-    public function createPlayerArray(array $players, Configuration $conf)
+    public function createPlayerArray()
     {
         $arr = [];
-        foreach ($players as $player) {
-            array_push($arr, $this->createPlayer($player, $conf));
+        foreach ($this->configuration->getPlayers() as $player) {
+            $arr[] = $this->createPlayer($player);
         }
         return $arr;
     }
 
-    public function createCardSet(array $colors): CardSet
+    public function createDice(): Dice
     {
-        return new CardSet($colors);
+        return new Dice($this->createDiceArray($this->configuration->getColors()));
     }
 
-    public function createDice(array $colors): Dice
+    private function createPlayer(string $name): Player
     {
-        return new Dice($this->createDiceArray($colors));
+        return new Player($name, $this->createLogger());
     }
 
-    private function createPlayer(string $name, Configuration $conf): Player
+    public function createGame()
     {
-        return new Player($name, $this->createLogger($conf));
+        return new Game(
+            $this->createPlayerArray(),
+            $this->createDice(),
+            $this->createLogger()
+        );
     }
 
-    public function createGame(array $players, array $colors, Configuration $conf)
+    public function createLogger(): LoggerInterface
     {
-        return new Game($this->createPlayerArray($players, $conf), $this->createDice($colors), $this->createLogger($conf));
-    }
-
-    public function createLogger(Configuration $conf): LoggerInterface
-    {
-        if ($conf->isFileLogger()) {
-            return new FileLogger($conf);
+        if ($this->configuration->isFileLogger()) {
+            return new FileLogger($this->configuration);
         }
-        return new EchoLogger($conf);
-    }
-
-    public function createConfiguration(string $path): Configuration
-    {
-        return new Configuration($path);
+        return new EchoLogger($this->configuration);
     }
 }
