@@ -14,7 +14,12 @@ class ConfigurationTest extends TestCase
 
     public function setUp()
     {
-        $this->config = new Configuration('../src/conf.ini');
+        $this->config = new Configuration(__DIR__ . '/../src/conf.ini');
+    }
+
+    public function testDummy()
+    {
+        $this->assertTrue(true);
     }
 
 //    public function testGetColorReturnsArrayParsedFromIniFile()

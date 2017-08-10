@@ -33,12 +33,12 @@ class CardTest extends TestCase
 
     public function testIsRevealedIsSetToFalseByDefault()
     {
-        $this->assertSame(false, $this->card->getIsRevealed());
+        $this->assertFalse($this->card->isRevealed());
     }
 
     public function testRevealSetsIsRevealedToTrue()
     {
         $this->card->reveal();
-        $this->assertSame(true, $this->card->getIsRevealed());
+        $this->assertTrue($this->card->isRevealed());
     }
 }

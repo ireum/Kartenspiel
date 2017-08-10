@@ -18,7 +18,7 @@ class Card
         return $this->color;
     }
 
-    public function getIsRevealed(): bool
+    public function isRevealed(): bool
     {
         return $this->isRevealed;
     }

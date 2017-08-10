@@ -14,7 +14,7 @@ class CardSet
     public function checkCardsForRolledColor(Color $color): bool
     {
         foreach ($this->cards as $card) {
-            if ($color == $card->getColor() && !$card->getIsRevealed()) {
+            if ($color == $card->getColor() && !$card->isRevealed()) {
                 $card->reveal();
                 return true;
             }
@@ -25,7 +25,7 @@ class CardSet
     public function hasAllCardsRevealed(): bool
     {
         foreach ($this->cards as $card) {
-            if (!$card->getIsRevealed()) {
+            if (!$card->isRevealed()) {
                 return false;
             }
         }
