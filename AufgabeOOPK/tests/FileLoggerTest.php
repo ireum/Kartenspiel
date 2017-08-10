@@ -10,20 +10,25 @@ class FileLoggerTest extends TestCase
 {
     /** @var FileLogger */
     private $fileLogger;
-    /** @var Configuration */
-    private $config;
+    /** @var \PHPUnit_Framework_MockObject_MockObject|Configuration */
+    private $configuration;
 
     public function setUp()
     {
-        $this->config = $this->getMockBuilder(Configuration::class)
+        $this->configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->fileLogger = new FileLogger($this->config);
+        $this->fileLogger = new FileLogger($this->configuration);
     }
 
     public function testLogAppendsMessageIntoFileGivenFromConfiguration()
     {
+        $this->configuration->expects($this->once())
+                            ->method('getFileLoggerPath')
+                            ->willReturn('/tmp/fileLoggerUnitTest.txt');
 
+
+        $this->fileLogger->log('unitTest');
     }
 }

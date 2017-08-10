@@ -34,8 +34,6 @@ class Player
             $logString .= ' and revealed a card';
         }
 
-
-
         if ($this->cardSet->hasAllCardsRevealed()) {
             $logString .= ' and won the game.';
         }

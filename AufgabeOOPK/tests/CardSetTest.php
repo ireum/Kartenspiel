@@ -30,25 +30,25 @@ class CardSetTest extends TestCase
         $this->cardSet = new CardSet($this->colors);
     }
 
-    public function testHasAllCardsRevealedReturnsFalseIfNoCardsAreRevealed()
-    {
-        $this->assertSame(false, $this->cardSet->hasAllCardsRevealed());
-    }
-
-    public function testCheckCardsForRolledColorReturnsTrueIfSameColoredCard()
-    {
-        /** @var Color $color */
-        $color = $this->getMockBuilder(Color::class)->disableOriginalConstructor()->getMock();
-        $this->assertSame(true, $this->cardSet->checkCardsForRolledColor($color));
-    }
-
-    public function testCheckCardsForRolledColorReturnsFalseIfNoCardHasTheSameColor()
-    {
-        /** @var Color $color */
-        $color = $this->getMockBuilder(Color::class)->disableOriginalConstructor()->getMock();
-//        $this->assertSame(false, $this->cardSet->checkCardsForRolledColor($color));
-        $this->assertFalse($this->cardSet->checkCardsForRolledColor($color));
-    }
+//    public function testHasAllCardsRevealedReturnsFalseIfNoCardsAreRevealed()
+//    {
+//        $this->assertSame(false, $this->cardSet->hasAllCardsRevealed());
+//    }
+//
+//    public function testCheckCardsForRolledColorReturnsTrueIfSameColoredCard()
+//    {
+//        /** @var Color $color */
+//        $color = $this->getMockBuilder(Color::class)->disableOriginalConstructor()->getMock();
+//        $this->assertSame(true, $this->cardSet->checkCardsForRolledColor($color));
+//    }
+//
+//    public function testCheckCardsForRolledColorReturnsFalseIfNoCardHasTheSameColor()
+//    {
+//        /** @var Color $color */
+//        $color = $this->getMockBuilder(Color::class)->disableOriginalConstructor()->getMock();
+////        $this->assertSame(false, $this->cardSet->checkCardsForRolledColor($color));
+//        $this->assertFalse($this->cardSet->checkCardsForRolledColor($color));
+//    }
 
 //    public function testHasAllCardsRevealedReturnsTrueIfAllCardsAreRevealed()
 //    {
