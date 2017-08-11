@@ -26,52 +26,37 @@ class PlayerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger = $this->getMockBuilder(LoggerInterface::class)
+        $this->cardSet->expects($this->any())
+            ->method('checkCardsForRolledColor')
+            ->willReturn(true);
+
+        $this->cardSet->expects($this->any())
+            ->method('hasAllCardsRevealed')
+            ->willReturn(true);
+
+        $this->logger = $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
+
         $this->player = new Player('name', $this->logger);
+        $this->player->setCardSet($this->cardSet);
     }
 
+    public function testExecuteTurn()
+    {
+        $dice = $this->getMockBuilder(Dice::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-    
-//
-//    public function testSetCardSetSetsCardSet()
-//    {
-//
-//    }
 
-//
-//    public function testGetNameReturnsNameInsertedByConstructor()
-//    {
-//        $this->assertSame('name', $this->player->getName());
-//    }
-//
-//    public function testRollDiceReturnsNumberInTheCorrectRange()
-//    {
-//        $dice = $this->getMockBuilder(Dice::class)
-//                     ->setMethods(['roll'])
-//                     ->getMock();
-//
-//        $dice->method('roll')
-//             ->willReturn(1);
-//
-//        $this->assertSame(1, $this->player->rollDice($dice));
-//
-//    }
-//
-//    public function testAllCardsRevealedReturnsFalseIfAllCardsAreHidden()
-//    {
-//
-//        $this->player->setCards();
-//        $this->assertSame(false, $this->player->allCardsRevealed());
-//    }
-//
-//    public function testSetCardsSetsRightNumberOfCards()
-//    {
-//
-//        $n = count($this->player->getCards());
-//        $this->assertSame(6, $n);
-//    }
+        $this->assertTrue($this->player->executeTurn($dice));
+    }
+
+    public function testToString()
+    {
+        $this->assertSame('name', $this->player->__toString());
+    }
+
 
 }

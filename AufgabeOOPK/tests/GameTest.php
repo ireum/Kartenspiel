@@ -46,13 +46,13 @@ class GameTest extends TestCase
         $this->game = new Game($this->players, $this->dice, $this->logger);
     }
 
-    public function testPrepare()
+    public function testPrepareSetsCardSetForPlayers()
     {
         $this->game->prepare([new Color('red'), new Color('green'), new Color('blue')]);
         $this->assertNotNull($this->players[0]);
     }
 
-    public function testPlay()
+    public function testPlayEndsGameIfOnePlayerRevealedAllCards()
     {
         $this->player->expects($this->once())
             ->method('executeTurn')
