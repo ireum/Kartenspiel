@@ -6,18 +6,41 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class PlayerTest
  * @covers Player
- * @uses Dice
- * @uses Card
+ * @uses   Dice
+ * @uses   Card
  */
 class PlayerTest extends TestCase
 {
     /** @var Player */
     private $player;
 
+    /** @var PHPUnit_Framework_MockObject_MockBuilder|CardSet */
+    private $cardSet;
+
+    /** @var PHPUnit_Framework_MockObject_MockBuilder|LoggerInterface */
+    private $logger;
+
     public function setUp()
     {
-        $this->player = new Player('name');
+        $this->cardSet = $this->getMockBuilder(CardSet::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $logger = $this->getMockBuilder(LoggerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->player = new Player('name', $this->logger);
     }
+
+
+    
+//
+//    public function testSetCardSetSetsCardSet()
+//    {
+//
+//    }
+
 //
 //    public function testGetNameReturnsNameInsertedByConstructor()
 //    {

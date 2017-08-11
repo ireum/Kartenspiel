@@ -12,10 +12,10 @@ class GameTest extends TestCase
     /** @var Game */
     private $game;
 
-    /** @var  Dice */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|Dice */
     private $dice;
 
-    /** @var  LoggerInterface */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|LoggerInterface */
     private $logger;
 
     /** @var Player[] */
@@ -32,9 +32,15 @@ class GameTest extends TestCase
                              ->disableOriginalConstructor()
                              ->getMock();
 
-        $this->players =
+        $this->players = ['p1', 'p2', 'p3'];
 
-        $this->game = new Game();
+        $this->game = new Game($this->players, $this->dice, $this->logger);
     }
+
+//    public function testFinishGameSetsGameEndToTrue()
+//    {
+//        $this->game->prepare();
+//    }
+
 
 }

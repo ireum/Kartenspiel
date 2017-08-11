@@ -9,9 +9,6 @@ class Player
     /** @var string */
     private $name;
 
-    /** @var Card[] */
-    private $cards = [];
-
     /** @var LoggerInterface */
     private $logger;
 
