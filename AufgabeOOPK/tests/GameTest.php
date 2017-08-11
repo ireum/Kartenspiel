@@ -5,7 +5,10 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers Game
- * @uses
+ * @uses Player
+ * @uses CardSet
+ * @uses Card
+ * @uses Color
  */
 class GameTest extends TestCase
 {
@@ -18,29 +21,43 @@ class GameTest extends TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject|LoggerInterface */
     private $logger;
 
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|Player */
+    private $player;
+
     /** @var Player[] */
     private $players;
 
     public function setUp()
     {
+        $this->player = $this->getMockBuilder(Player::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->dice = $this->getMockBuilder(Dice::class)
-                           ->disableOriginalConstructor()
-                           ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->logger = $this->getMockBuilder(LoggerInterface::class)
-                             ->disableOriginalConstructor()
-                             ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->players = ['p1', 'p2', 'p3'];
+        $this->players = [$this->player];
 
         $this->game = new Game($this->players, $this->dice, $this->logger);
     }
 
-//    public function testFinishGameSetsGameEndToTrue()
-//    {
-//        $this->game->prepare();
-//    }
+    public function testPrepare()
+    {
+        $this->game->prepare([new Color('red'), new Color('green'), new Color('blue')]);
+        $this->assertNotNull($this->players[0]);
+    }
 
+    public function testPlay()
+    {
+        $this->player->expects($this->once())
+            ->method('executeTurn')
+            ->willReturn(true);
 
+        $this->game->play();
+    }
 }
