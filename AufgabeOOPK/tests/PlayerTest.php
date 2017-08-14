@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
  * @covers Player
  * @uses   Dice
  * @uses   Card
+ * @uses   LoggerInterface
  */
 class PlayerTest extends TestCase
 {
@@ -26,18 +27,9 @@ class PlayerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->cardSet->expects($this->any())
-            ->method('checkCardsForRolledColor')
-            ->willReturn(true);
-
-        $this->cardSet->expects($this->any())
-            ->method('hasAllCardsRevealed')
-            ->willReturn(true);
-
         $this->logger = $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-
 
         $this->player = new Player('name', $this->logger);
         $this->player->setCardSet($this->cardSet);
@@ -49,8 +41,41 @@ class PlayerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->cardSet->expects($this->once())
+            ->method('checkCardsForRolledColor')
+            ->willReturn(true);
+
+        $this->cardSet->expects($this->once())
+            ->method('hasAllCardsRevealed')
+            ->willReturn(true);
+
+
+        $this->logger->expects($this->once())
+            ->method('log')
+            ->with($this->equalTo('name rolled  and revealed a card and won the game.'));
 
         $this->assertTrue($this->player->executeTurn($dice));
+    }
+
+    public function testExecuteTurnDoesNotEndGame()
+    {
+        $dice = $this->getMockBuilder(Dice::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->cardSet->expects($this->once())
+            ->method('checkCardsForRolledColor')
+            ->willReturn(false);
+
+        $this->cardSet->expects($this->once())
+            ->method('checkCardsForRolledColor')
+            ->willReturn(false);
+
+        $this->logger->expects($this->once())
+            ->method('log')
+            ->with($this->equalTo('name rolled '));
+
+        $this->assertFalse($this->player->executeTurn($dice));
     }
 
     public function testToString()
