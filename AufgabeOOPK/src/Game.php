@@ -25,13 +25,14 @@ class Game
         $this->logger = $logger;
     }
 
-    private function prepareGameColors(array $colors)
+    /** @return Card[] */
+    private function prepareCards(array $colors): array
     {
         $rndColorArray = array_rand($colors, count($colors) - 1);
 
         $returnArray = [];
         foreach ($rndColorArray as $num) {
-            $returnArray[] = $colors[$num];
+            $returnArray[] = new Card($colors[$num]);
         }
 
         return $returnArray;
@@ -39,10 +40,8 @@ class Game
 
     public function prepare(array $colors)
     {
-        $this->prepareGameColors($colors);
-
         foreach ($this->players as $player) {
-            $player->setCardSet(new CardSet($this->prepareGameColors(($colors))));
+            $player->setCardSet(new CardSet(...$this->prepareCards($colors)));
         }
     }
 

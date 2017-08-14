@@ -52,7 +52,7 @@ class FactoryTest extends TestCase
             ->method('getColors')
             ->willReturn($colors);
 
-        $expected = new Dice($this->factory->createDiceArray($colors));
+        $expected = new Dice(...$this->factory->createDiceArray($colors));
         $actual = $this->factory->createDice();
         $this->assertEquals($expected, $actual);
     }

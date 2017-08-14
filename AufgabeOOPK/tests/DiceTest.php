@@ -18,7 +18,7 @@ class DiceTest extends TestCase
     public function setUp()
     {
         $this->colors = [new Color('red'), new Color('green'), new Color('blue')];
-        $this->dice = new Dice($this->colors);
+        $this->dice = new Dice(...$this->colors);
     }
 
     public function testRollReturnsColorFromTheColorsArray()

@@ -17,10 +17,10 @@ class CardSetTest extends TestCase
     public function setUp()
     {
         $this->cardSet = new CardSet(
-            [
-                new Color('red'),
-                new Color('green'),
-                new Color('blue')
+            ...[
+                new Card(new Color('red')),
+                new Card(new Color('green')),
+                new Card(new Color('blue'))
             ]
         );
     }

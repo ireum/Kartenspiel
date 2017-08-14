@@ -6,7 +6,7 @@ class Dice
     /** @var Color[] */
     private $colors;
 
-    public function __construct(array $colors)
+    public function __construct(Color ...$colors)
     {
         $this->colors = $colors;
     }

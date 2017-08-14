@@ -6,9 +6,9 @@ class CardSet
     /** @var Card[] */
     private $cards = [];
 
-    public function __construct(array $colors)
+    public function __construct(Card ...$cards)
     {
-        $this->setUpCards($colors);
+        $this->cards = $cards;
     }
 
     public function checkCardsForRolledColor(Color $color): bool
@@ -30,12 +30,5 @@ class CardSet
             }
         }
         return true;
-    }
-
-    private function setUpCards(array $colors)
-    {
-        foreach ($colors as $color) {
-            $this->cards[] = new Card($color);
-        }
     }
 }

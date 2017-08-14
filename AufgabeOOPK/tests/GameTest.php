@@ -53,7 +53,6 @@ class GameTest extends TestCase
         $this->game = new Game($this->players, $this->dice, $this->logger);
     }
 
-    //TODO: Falsche Zusicherung. wie abfrage von cardset
     public function testPrepareSetsCardSetForPlayers()
     {
         $this->playerOne->expects($this->once())
@@ -70,7 +69,6 @@ class GameTest extends TestCase
         $this->playerOne->expects($this->once())
             ->method('executeTurn')
             ->willReturn(false);
-
 
         $this->playerTwo->expects($this->once())
             ->method('executeTurn')

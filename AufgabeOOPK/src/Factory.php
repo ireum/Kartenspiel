@@ -39,7 +39,7 @@ class Factory
 
     public function createDice(): Dice
     {
-        return new Dice($this->createDiceArray($this->configuration->getColors()));
+        return new Dice(...$this->createDiceArray($this->configuration->getColors()));
     }
 
     private function createPlayer(string $name): Player
