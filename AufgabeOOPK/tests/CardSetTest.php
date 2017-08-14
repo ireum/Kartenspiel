@@ -13,20 +13,10 @@ class CardSetTest extends TestCase
 {
     /** @var CardSet */
     private $cardSet;
-    /** @var \PHPUnit_Framework_MockObject_MockObject|Configuration */
-    private $configuration;
 
     public function setUp()
     {
-        $this->configuration = $this->getMockBuilder(Configuration::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->configuration->expects($this->once())
-            ->method('getColors')
-            ->willReturn([new Color('red'), new Color('green'), new Color('blue')]);
-
-        $this->cardSet = new CardSet($this->configuration->getColors());
+        $this->cardSet = new CardSet([new Color('red'), new Color('green'), new Color('blue')]);
     }
 
     public function testHasAllCardsRevealedReturnsFalseIfNoCardsAreRevealed()
