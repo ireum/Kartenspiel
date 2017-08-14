@@ -1,7 +1,9 @@
 <?php
 
-
-interface LoggerInterface
+namespace CardGame
 {
-    public function log(string $message);
+    interface LoggerInterface
+    {
+        public function log(string $message);
+    }
 }

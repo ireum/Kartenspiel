@@ -1,10 +1,12 @@
 <?php
 
-
-class EchoLogger implements LoggerInterface
+namespace CardGame
 {
-    public function log(string $message)
+    class EchoLogger implements LoggerInterface
     {
-        echo $message . PHP_EOL;
+        public function log(string $message)
+        {
+            echo $message . PHP_EOL;
+        }
     }
 }

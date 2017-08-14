@@ -1,42 +1,45 @@
 <?php
 
-
-use PHPUnit\Framework\TestCase;
-
-/**
- * @covers Card
- * @uses Color
- */
-class CardTest extends TestCase
+namespace CardGame
 {
-    /** @var Card */
-    private $card;
 
-    /** @var Color */
-    private $color;
+    use PHPUnit\Framework\TestCase;
 
-    public function  setUp()
+    /**
+     * @covers \CardGame\Card
+     * @uses   \CardGame\Color
+     */
+    class CardTest extends TestCase
     {
-        $this->color = $this->getMockBuilder(Color::class)
-                            ->disableOriginalConstructor()
-                            ->getMock();
+        /** @var Card */
+        private $card;
 
-        $this->card = new Card($this->color);
-    }
+        /** @var Color */
+        private $color;
 
-    public function testGetColorReturnsColorInsertedByConstructor()
-    {
-        $this->assertSame($this->color, $this->card->getColor());
-    }
+        public function setUp()
+        {
+            $this->color = $this->getMockBuilder(Color::class)
+                ->disableOriginalConstructor()
+                ->getMock();
 
-    public function testIsRevealedIsSetToFalseByDefault()
-    {
-        $this->assertFalse($this->card->isRevealed());
-    }
+            $this->card = new Card($this->color);
+        }
 
-    public function testRevealSetsIsRevealedToTrue()
-    {
-        $this->card->reveal();
-        $this->assertTrue($this->card->isRevealed());
+        public function testGetColorReturnsColorInsertedByConstructor()
+        {
+            $this->assertSame($this->color, $this->card->getColor());
+        }
+
+        public function testIsRevealedIsSetToFalseByDefault()
+        {
+            $this->assertFalse($this->card->isRevealed());
+        }
+
+        public function testRevealSetsIsRevealedToTrue()
+        {
+            $this->card->reveal();
+            $this->assertTrue($this->card->isRevealed());
+        }
     }
 }

@@ -1,25 +1,28 @@
 <?php
 
-
-use PHPUnit\Framework\TestCase;
-
-/**
- * @covers EchoLogger
- */
-class EchoLoggerTest extends TestCase
+namespace CardGame
 {
-    /** @var LoggerInterface */
-    private $echoLogger;
 
-    public function setUp()
+    use PHPUnit\Framework\TestCase;
+
+    /**
+     * @covers \CardGame\EchoLogger
+     */
+    class EchoLoggerTest extends TestCase
     {
+        /** @var LoggerInterface */
+        private $echoLogger;
 
-        $this->echoLogger = new EchoLogger();
-    }
+        public function setUp()
+        {
 
-    public function testLogEchoesMessageInsertedByArgument()
-    {
-        $this->expectOutputString('foo' . PHP_EOL);
-        $this->echoLogger->log('foo');
+            $this->echoLogger = new EchoLogger();
+        }
+
+        public function testLogEchoesMessageInsertedByArgument()
+        {
+            $this->expectOutputString('foo' . PHP_EOL);
+            $this->echoLogger->log('foo');
+        }
     }
 }

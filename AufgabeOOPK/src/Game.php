@@ -1,75 +1,77 @@
 <?php
 
-
-class Game
+namespace CardGame
 {
-    /** @var Dice */
-    private $dice;
-
-    /** @var Player[] */
-    private $players = [];
-
-    /** @var bool */
-    private $gameEnd = false;
-
-    /** @var int */
-    private $roundCounter = 1;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function __construct(array $players, Dice $dice, LoggerInterface $logger)
+    class Game
     {
-        $this->players = $players;
-        $this->dice = $dice;
-        $this->logger = $logger;
-    }
+        /** @var Dice */
+        private $dice;
 
-    /** @return Card[] */
-    private function prepareCards(array $colors): array
-    {
-        $rndColorArray = array_rand($colors, count($colors) - 1);
+        /** @var Player[] */
+        private $players = [];
 
-        $returnArray = [];
-        foreach ($rndColorArray as $num) {
-            $returnArray[] = new Card($colors[$num]);
+        /** @var bool */
+        private $gameEnd = false;
+
+        /** @var int */
+        private $roundCounter = 1;
+
+        /** @var LoggerInterface */
+        private $logger;
+
+        public function __construct(array $players, Dice $dice, LoggerInterface $logger)
+        {
+            $this->players = $players;
+            $this->dice = $dice;
+            $this->logger = $logger;
         }
 
-        return $returnArray;
-    }
+        /** @return Card[] */
+        private function prepareCards(array $colors): array
+        {
+            $rndColorArray = array_rand($colors, count($colors) - 1);
 
-    public function prepare(array $colors)
-    {
-        foreach ($this->players as $player) {
-            $player->setCardSet(new CardSet(...$this->prepareCards($colors)));
+            $returnArray = [];
+            foreach ($rndColorArray as $num) {
+                $returnArray[] = new Card($colors[$num]);
+            }
+
+            return $returnArray;
         }
-    }
 
-    private function round()
-    {
-        $this->logger->log(PHP_EOL . 'Round ' . $this->roundCounter++);
-        foreach ($this->players as $player) {
-            if ($player->executeTurn($this->dice)) {
-                $this->finishGame();
-                break;
+        public function prepare(array $colors)
+        {
+            foreach ($this->players as $player) {
+                $player->setCardSet(new CardSet(...$this->prepareCards($colors)));
             }
         }
-    }
 
-    public function play()
-    {
-        do {
-            $this->round();
-        } while (!$this->isGameFinished());
-    }
+        private function round()
+        {
+            $this->logger->log(PHP_EOL . 'Round ' . $this->roundCounter++);
+            foreach ($this->players as $player) {
+                if ($player->executeTurn($this->dice)) {
+                    $this->finishGame();
+                    break;
+                }
+            }
+        }
 
-    private function isGameFinished(): bool
-    {
-        return $this->gameEnd;
-    }
+        public function play()
+        {
+            do {
+                $this->round();
+            } while (!$this->isGameFinished());
+        }
 
-    private function finishGame()
-    {
-        $this->gameEnd = true;
+        private function isGameFinished(): bool
+        {
+            return $this->gameEnd;
+        }
+
+        private function finishGame()
+        {
+            $this->gameEnd = true;
+        }
     }
 }

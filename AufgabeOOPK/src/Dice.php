@@ -1,18 +1,20 @@
 <?php
 
-
-class Dice
+namespace CardGame
 {
-    /** @var Color[] */
-    private $colors;
-
-    public function __construct(Color ...$colors)
+    class Dice
     {
-        $this->colors = $colors;
-    }
+        /** @var Color[] */
+        private $colors;
 
-    public function roll(): Color
-    {
-        return $this->colors[array_rand($this->colors)];
+        public function __construct(Color ...$colors)
+        {
+            $this->colors = $colors;
+        }
+
+        public function roll(): Color
+        {
+            return $this->colors[array_rand($this->colors)];
+        }
     }
 }

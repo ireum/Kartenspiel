@@ -1,80 +1,82 @@
 <?php
 
-
-use PHPUnit\Framework\TestCase;
-
-/**
- * @covers Game
- * @uses Player
- * @uses CardSet
- * @uses Card
- * @uses Color
- */
-class GameTest extends TestCase
+namespace CardGame
 {
-    /** @var Game */
-    private $game;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|Dice */
-    private $dice;
+    use PHPUnit\Framework\TestCase;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|LoggerInterface */
-    private $logger;
-
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|Player */
-    private $playerOne;
-
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|Player */
-    private $playerTwo;
-
-    /** @var Player[] */
-    private $players;
-
-    public function setUp()
+    /**
+     * @covers \CardGame\Game
+     * @uses   \CardGame\Player
+     * @uses   \CardGame\CardSet
+     * @uses   \CardGame\Card
+     * @uses   \CardGame\Color
+     */
+    class GameTest extends TestCase
     {
-        $this->playerOne = $this->getMockBuilder(Player::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var Game */
+        private $game;
 
-        $this->playerTwo = $this->getMockBuilder(Player::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var  \PHPUnit_Framework_MockObject_MockObject|Dice */
+        private $dice;
 
-        $this->dice = $this->getMockBuilder(Dice::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var  \PHPUnit_Framework_MockObject_MockObject|LoggerInterface */
+        private $logger;
 
-        $this->logger = $this->getMockBuilder(LoggerInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        /** @var  \PHPUnit_Framework_MockObject_MockObject|Player */
+        private $playerOne;
 
-        $this->players = [$this->playerOne, $this->playerTwo];
+        /** @var  \PHPUnit_Framework_MockObject_MockObject|Player */
+        private $playerTwo;
 
-        $this->game = new Game($this->players, $this->dice, $this->logger);
+        /** @var Player[] */
+        private $players;
+
+        public function setUp()
+        {
+            $this->playerOne = $this->getMockBuilder(Player::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+            $this->playerTwo = $this->getMockBuilder(Player::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+            $this->dice = $this->getMockBuilder(Dice::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+            $this->logger = $this->getMockBuilder(LoggerInterface::class)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+            $this->players = [$this->playerOne, $this->playerTwo];
+
+            $this->game = new Game($this->players, $this->dice, $this->logger);
+        }
+
+        public function testPrepareSetsCardSetForPlayers()
+        {
+            $this->playerOne->expects($this->once())
+                ->method('setCardSet');
+
+            $this->playerTwo->expects($this->once())
+                ->method('setCardSet');
+
+            $this->game->prepare([new Color('red'), new Color('green'), new Color('blue')]);
+        }
+
+        public function testPlayEndsGameIfOnePlayerRevealedAllCards()
+        {
+            $this->playerOne->expects($this->once())
+                ->method('executeTurn')
+                ->willReturn(false);
+
+            $this->playerTwo->expects($this->once())
+                ->method('executeTurn')
+                ->willReturn(true);
+
+            $this->game->play();
+        }
     }
-
-    public function testPrepareSetsCardSetForPlayers()
-    {
-        $this->playerOne->expects($this->once())
-            ->method('setCardSet');
-
-        $this->playerTwo->expects($this->once())
-            ->method('setCardSet');
-
-        $this->game->prepare([new Color('red'), new Color('green'), new Color('blue')]);
-    }
-
-    public function testPlayEndsGameIfOnePlayerRevealedAllCards()
-    {
-        $this->playerOne->expects($this->once())
-            ->method('executeTurn')
-            ->willReturn(false);
-
-        $this->playerTwo->expects($this->once())
-            ->method('executeTurn')
-            ->willReturn(true);
-
-        $this->game->play();
-    }
-
 }
