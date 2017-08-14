@@ -25,10 +25,35 @@ class Game
         $this->logger = $logger;
     }
 
+//    private function setPlayerCardSet(array $colors)
+//    {
+//        $rndColors = array_rand($colors, count($colors) - 1);
+//
+//        foreach ($rndColors as $rc) {
+//
+//            $this->cards[] = new Card($colors[$rc]);
+//        }
+//    }
+
+    private function prepareGameColors(array $colors)
+    {
+        var_dump($colors);
+        $rndColorArray = array_rand($colors, count($colors) - 1);
+
+        $returnArray = [];
+        foreach ($rndColorArray as $num) {
+            $returnArray[] = $colors[$num];
+        }
+
+        return $returnArray;
+    }
+
     public function prepare(array $colors)
     {
+        $this->prepareGameColors($colors);
+
         foreach ($this->players as $player) {
-            $player->setCardSet(new CardSet($colors));
+            $player->setCardSet(new CardSet($this->prepareGameColors(($colors))));
         }
     }
 

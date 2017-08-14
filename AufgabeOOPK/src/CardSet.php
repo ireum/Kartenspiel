@@ -32,13 +32,12 @@ class CardSet
         return true;
     }
 
+    //TODO: Macht das Testen schwer
+    // => richtig überlegt: muss hier weg und woanders hin.
     private function setUpCards(array $colors)
     {
-        $rndColors = array_rand($colors, count($colors) - 1);
-
-        foreach ($rndColors as $rc) {
-
-            $this->cards[] = new Card($colors[$rc]);
+        foreach ($colors as $color) {
+            $this->cards[] = new Card($color);
         }
     }
 }
