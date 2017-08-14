@@ -27,15 +27,17 @@ class Player
     {
         $color = $this->rollDice($dice);
         $logString = $this->name . ' rolled ' . $color;
+
         if ($this->cardSet->checkCardsForRolledColor($color)) {
             $logString .= ' and revealed a card';
         }
 
-        if ($this->cardSet->hasAllCardsRevealed()) {
+        $hasAllCardsRevealed = $this->cardSet->hasAllCardsRevealed();
+        if ($hasAllCardsRevealed) {
             $logString .= ' and won the game.';
         }
         $this->logger->log($logString);
-        return $this->cardSet->hasAllCardsRevealed();
+        return $hasAllCardsRevealed;
     }
 
     private function rollDice(Dice $dice): Color

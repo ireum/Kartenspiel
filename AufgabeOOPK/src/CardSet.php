@@ -32,8 +32,6 @@ class CardSet
         return true;
     }
 
-    //TODO: Macht das Testen schwer
-    // => richtig überlegt: muss hier weg und woanders hin.
     private function setUpCards(array $colors)
     {
         foreach ($colors as $color) {

@@ -30,5 +30,8 @@ class FileLoggerTest extends TestCase
 
 
         $this->fileLogger->log('unitTest');
+
+        // +Zusicherung
+        // + Unittest hinterlässt keine spuren
     }
 }

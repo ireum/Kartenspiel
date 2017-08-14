@@ -45,7 +45,14 @@ class FactoryTest extends TestCase
 
     public function testDiceCanBeCreated()
     {
-        $expected = new Dice($this->factory->createDiceArray($this->configuration->getColors()));
+        $colors = ['red', 'green'];
+
+        $this->configuration
+            ->expects($this->once())
+            ->method('getColors')
+            ->willReturn($colors);
+
+        $expected = new Dice($this->factory->createDiceArray($colors));
         $actual = $this->factory->createDice();
         $this->assertEquals($expected, $actual);
     }
@@ -81,36 +88,21 @@ class FactoryTest extends TestCase
 
     public function testEchoLoggerCanBeCreated()
     {
-        $expected = new EchoLogger($this->configuration);
-        $actual = $this->factory->createLogger();
-        $this->assertEquals($expected, $actual);
+        $this->assertInstanceOf(
+            EchoLogger::class,
+            $this->factory->createLogger()
+        );
     }
 
     public function testFileLoggerCanBeCreated()
     {
-        $expected = neW FileLogger($this->configuration);
-
         $this->configuration->expects($this->once())
                             ->method('isFileLogger')
                             ->willReturn(true);
 
-        $actual = $this->factory->createLogger();
+        $this->assertInstanceOf(
+            FileLogger::class,
+            $this->factory->createLogger()
+        );
     }
-
-//    public function testPlayerArrayCanBeCreated()
-//    {
-//        $logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
-//
-//        $expected = [
-//            new Player('Alice', $logger),
-//            new Player('Bob', $logger),
-//            new Player('Carol', $logger)
-//        ];
-//
-//        $actual = $this->factory->createPlayerArray();
-//        var_dump($actual);
-//        exit();
-//
-//        $this->assertEquals($expected, $actual);
-//    }
 }

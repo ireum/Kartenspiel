@@ -61,6 +61,6 @@ class Factory
         if ($this->configuration->isFileLogger()) {
             return new FileLogger($this->configuration);
         }
-        return new EchoLogger($this->configuration);
+        return new EchoLogger();
     }
 }

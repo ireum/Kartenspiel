@@ -17,8 +17,6 @@ class CardTest extends TestCase
 
     public function  setUp()
     {
-        //$this->color = new Color('red');
-        //TODO: Color Mock Obj
         $this->color = $this->getMockBuilder(Color::class)
                             ->disableOriginalConstructor()
                             ->getMock();

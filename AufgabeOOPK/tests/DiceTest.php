@@ -17,16 +17,13 @@ class DiceTest extends TestCase
 
     public function setUp()
     {
-        $this->colors = [];
-        for ($i = 0; $i < 6; $i++) {
-            array_push($this->colors, $this->getMockBuilder(Color::class)->disableOriginalConstructor()->getMock());
-        }
-
+        $this->colors = [new Color('red'), new Color('green'), new Color('blue')];
         $this->dice = new Dice($this->colors);
     }
 
-    public function testRollReturnsAColorFromTheColorsArray()
+    public function testRollReturnsColorFromTheColorsArray()
     {
-        $this->assertEquals($this->colors[0], $this->dice->roll());
+        $this->assertContains($this->dice->roll(), $this->colors);
+        $this->assertInstanceOf(Color::class, $this->dice->roll());
     }
 }

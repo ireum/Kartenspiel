@@ -22,14 +22,21 @@ class GameTest extends TestCase
     private $logger;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject|Player */
-    private $player;
+    private $playerOne;
+
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|Player */
+    private $playerTwo;
 
     /** @var Player[] */
     private $players;
 
     public function setUp()
     {
-        $this->player = $this->getMockBuilder(Player::class)
+        $this->playerOne = $this->getMockBuilder(Player::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->playerTwo = $this->getMockBuilder(Player::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -41,23 +48,29 @@ class GameTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->players = [$this->player];
+        $this->players = [$this->playerOne, $this->playerTwo];
 
         $this->game = new Game($this->players, $this->dice, $this->logger);
     }
 
+    //TODO: Falsche Zusicherung. wie abfrage von cardset
     public function testPrepareSetsCardSetForPlayers()
     {
         $this->game->prepare([new Color('red'), new Color('green'), new Color('blue')]);
-        $this->assertNotNull($this->players[0]);
     }
 
     public function testPlayEndsGameIfOnePlayerRevealedAllCards()
     {
-        $this->player->expects($this->once())
+        $this->playerOne->expects($this->once())
+            ->method('executeTurn')
+            ->willReturn(false);
+
+
+        $this->playerTwo->expects($this->once())
             ->method('executeTurn')
             ->willReturn(true);
 
         $this->game->play();
     }
+
 }
