@@ -56,6 +56,12 @@ class GameTest extends TestCase
     //TODO: Falsche Zusicherung. wie abfrage von cardset
     public function testPrepareSetsCardSetForPlayers()
     {
+        $this->playerOne->expects($this->once())
+            ->method('setCardSet');
+
+        $this->playerTwo->expects($this->once())
+            ->method('setCardSet');
+
         $this->game->prepare([new Color('red'), new Color('green'), new Color('blue')]);
     }
 
